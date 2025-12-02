@@ -1,0 +1,21 @@
+# Remi - Local Gemini Assistant Dependencies
+# Core Framework
+streamlit>=1.28.0
+
+# LangChain + Google Gemini Integration
+langchain>=0.3.0
+langchain-google-genai>=2.0.0
+
+# LiteLLM for Memori's internal LLM calls
+litellm>=1.0.0
+
+# Required by Memori SDK
+sqlalchemy>=2.0.0
+pydantic>=2.0.0
+loguru>=0.6.0
+python-dotenv>=1.0.0
+openai>=1.0.0
+
+# Image processing for avatar
+Pillow>=10.0.0
+

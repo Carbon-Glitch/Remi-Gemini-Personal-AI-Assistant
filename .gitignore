@@ -1,0 +1,48 @@
+# 个人记忆和对话数据
+local_memory.db
+conversations.json
+
+# 配置文件（包含 API Key 和个人设置）
+config.json
+
+# Python 缓存文件
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv
+
+# IDE 配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Streamlit 缓存
+.streamlit/
+
+# 日志文件
+*.log
+
+# 临时文件
+*.tmp
+*.bak
+*.cache
+
+# 其他敏感数据
+*.db-journal
+*.db-wal
+*.db-shm
+

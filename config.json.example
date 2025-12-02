@@ -1,0 +1,11 @@
+{
+  "api_key": "your-google-gemini-api-key-here",
+  "model_name": "gemini-2.5-flash",
+  "temperature": 0.9,
+  "persona": "你是一个女性私人助理，你的名字叫 Remi。你拥有对用户的长期记忆，能生成个性化的回答。",
+  "language": "zh",
+  "user_avatar": "",
+  "assistant_avatar": "",
+  "memori_mode": "conscious"
+}
+
