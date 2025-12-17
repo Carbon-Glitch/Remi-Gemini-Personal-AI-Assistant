@@ -192,37 +192,52 @@ class ConversationManager:
                 self.add_user_message(session_id, user_input)
 
             # Build context based on mode
-            context_prompt = ""
+            context_items = []
+            # Check if conscious ingest is active (either explicit mode or combined in auto mode)
+            is_conscious_active = mode == "conscious" or (
+                mode == "auto" and getattr(memori_instance, "conscious_ingest", False)
+            )
 
-            if mode == "conscious":
-                # Conscious mode: Always inject short-term memory context
-                # (Not just once - this fixes the original bug)
-                context = memori_instance._get_conscious_context()
-                if context:
-                    context_prompt = self._build_conscious_context_prompt(context)
-                    logger.debug(
-                        f"Injected conscious context with {len(context)} items for session {session_id}"
-                    )
+            # 1. Get Conscious Context
+            if is_conscious_active:
+                conscious_items = memori_instance._get_conscious_context()
+                if conscious_items:
+                    context_items.extend(conscious_items)
+                    logger.debug(f"Collected {len(conscious_items)} conscious memory items")
 
-            elif mode == "auto":
-                # Auto mode: Search long-term memory database for relevant context
+            # 2. Get Auto Context
+            if mode == "auto":
                 logger.debug(
                     f"[CONTEXT] Auto-ingest processing - Query: '{user_input[:50]}...' | Session: {session_id[:8]}..."
                 )
-                context = (
+                auto_items = (
                     memori_instance._get_auto_ingest_context(user_input)
                     if user_input
                     else []
                 )
-                if context:
-                    context_prompt = self._build_auto_context_prompt(context)
+                if auto_items:
+                    context_items.extend(auto_items)
                     logger.debug(
-                        f"[CONTEXT] Long-term memory injected - {len(context)} items | Session: {session_id[:8]}..."
+                        f"[CONTEXT] Collected {len(auto_items)} auto-retrieved memory items"
                     )
                 else:
                     logger.debug(
                         f"[CONTEXT] No relevant memories found for '{user_input[:30]}...' | Session: {session_id[:8]}..."
                     )
+
+            # 3. Build Prompt
+            context_prompt = ""
+            if context_items:
+                if is_conscious_active:
+                    # Use the stronger conscious prompt format if conscious ingest is active
+                    context_prompt = self._build_conscious_context_prompt(context_items)
+                else:
+                    # Use the standard auto prompt format
+                    context_prompt = self._build_auto_context_prompt(context_items)
+
+                logger.debug(
+                    f"[CONTEXT] Injected total {len(context_items)} context items | Session: {session_id[:8]}..."
+                )
 
             # Get conversation history
             history_messages = session.get_history_messages(limit=10)

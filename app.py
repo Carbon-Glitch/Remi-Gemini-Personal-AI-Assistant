@@ -1398,7 +1398,8 @@ def retrieve_memories(memori: Memori, query: str) -> str:
                 if content_lower not in seen_content and len(content.strip()) > 0:
                     seen_content.add(content_lower)
                     unique_memories.append(memory)
-                if len(unique_memories) >= 6:
+                # 增加记忆数量限制，Gemini 支持长上下文，可以返回更多记忆
+                if len(unique_memories) >= 20:
                     break
             
             print(f"[MEMORY] 最终返回 {len(unique_memories)} 条记忆")
