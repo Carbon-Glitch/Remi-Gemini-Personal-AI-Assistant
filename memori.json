@@ -1,0 +1,9 @@
+{
+  "memory": {
+    "max_short_term_memories": 10000,
+    "max_long_term_memories": 100000,
+    "retention_policy": "permanent",
+    "auto_cleanup": false
+  }
+}
+
